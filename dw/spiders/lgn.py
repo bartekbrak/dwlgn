@@ -22,9 +22,9 @@ class LgnSpider(XMLFeedSpider):
         item['date'] = self.normalize_date(node.xpath('//item/pubDate/text()').extract_first())
         item['langsam_filename'] = '%s.mp3' % item['date']
         item['originaltempo_filename'] = 'orig/%s.mp3' % item['date']
-        # if os.path.exists(os.path.join(self.settings['FILES_STORE'], item['langsam_filename'])):
-        #     logger.debug('%r skipped', item['langsam_filename'])
-        #     return
+        if os.path.exists(os.path.join(self.settings['FILES_STORE'], item['langsam_filename'])):
+            logger.debug('%r skipped', item['langsam_filename'])
+            return
         item['url'] = node.xpath('//item/link/text()').extract_first()
         item['langsam_url'] = node.xpath('//enclosure/@url').extract_first()
         item['file_urls'] = [item['langsam_url']]
