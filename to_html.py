@@ -24,11 +24,11 @@ if __name__ == '__main__':
             originaltempo_filename: {originaltempo_filename}
             </pre>
             <p>
-                <audio controls>
+                <audio controls preload="none">
                   <source src="mp3/{date}.mp3" type="audio/mp3">
                 </audio> langsam
                 <br>
-                <audio controls>
+                <audio controls preload="none">
                   <source src="mp3/orig/{date}.mp3" type="audio/mp3">
                 </audio> originaltempo
             </p>
