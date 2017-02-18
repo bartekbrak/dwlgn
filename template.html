@@ -8,7 +8,9 @@ $(function() {
     const audio = $('audio');
     var current = audio.first();
     audio.on('mouseenter', function () {
+        var remember_playing_state = current.playing;
         current = $(this);
+        current.playing = remember_playing_state;
         audio.css("border", "none");
         current.css("border", "1px solid lightseagreen" );
     });
