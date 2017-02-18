@@ -2,7 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(function() {
+    const audio = $('audio');
+    var current = audio.first();
+    audio.on('mouseenter', function () {
+        current = $(this);
+        audio.css("border", "none");
+        current.css("border", "1px solid lightseagreen" );
+    });
+    $(window).keydown(function(e) {
+        switch(e.which) {
+            case 32:
+                if (current.playing == true) {
+                    current.playing = false;
+                    current.trigger('pause');
+                } else {
+                    current.playing = true;
+                    current.trigger('play');
+                }
+                event.preventDefault();
+                break;
+            case 37:
+                current.prop("currentTime",current.prop("currentTime")-5);
+                event.preventDefault();
+                break;
+            case 39:
+                current.prop("currentTime",current.prop("currentTime")+5);
+                event.preventDefault();
+                break;
+        }
+    });
 
+});
+</script>
 <style>
 body { 
     margin: auto 200px;
