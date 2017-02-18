@@ -7,9 +7,12 @@ template = open('template.html').read()
 
 if __name__ == '__main__':
     assert len(sys.argv) == 2, 'pass filename.jsonlines'
-    body = ''
+    days = {}
     for jsonline in open(sys.argv[1], 'r'):
         day = json.loads(jsonline)
+        days[day['date']] = day
+    body = ''
+    for date, day in sorted(days.items(), reverse=True):
         html = textwrap.dedent('''
             <h1>{date}</h1>
             <pre>
