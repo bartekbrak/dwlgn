@@ -13,7 +13,7 @@ It's idempotent, it won't re-download files it already has.
 
 # Install and run
 
-In dedicated Python 3.5+ virtual env:
+In dedicated Python 3.6+ virtual env:
 
 ```
 make install
