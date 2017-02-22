@@ -27,13 +27,17 @@ if __name__ == '__main__':
             originaltempo_filename: {originaltempo_filename}
             </pre>
             <p>
-                <audio controls preload="none">
-                  <source src="mp3/{date}.mp3" type="audio/mp3">
-                </audio> langsam
-                <br>
-                <audio controls preload="none">
-                  <source src="mp3/orig/{date}.mp3" type="audio/mp3">
-                </audio> originaltempo
+                <span>
+                    <audio controls preload="none">
+                      <source src="mp3/orig/{date}.mp3" type="audio/mp3">y
+                    </audio> originaltempo
+                </span>
+                <span class=float-right>
+                    langsam
+                    <audio controls preload="none">
+                      <source src="mp3/{date}.mp3" type="audio/mp3">
+                    </audio>
+                </span>
             </p>
             <p>{html}</p>
         ''')

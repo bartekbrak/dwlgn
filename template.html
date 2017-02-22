@@ -4,19 +4,29 @@
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
+const SPACEBAR = 32, LEFT_ARROW = 37, RIGHTARROW = 39;
+
 $(function() {
     const audio = $('audio');
+
     var current = audio.first();
+    current.css("border-left", "10px solid lightseagreen" );
+
     audio.on('mouseenter', function () {
-        var remember_playing_state = current.playing;
+        if (current.is($(this))) {
+            return
+        }
+        current.trigger('pause');
+        current.playing = false;
         current = $(this);
-        current.playing = remember_playing_state;
-        audio.css("border", "none");
-        current.css("border", "1px solid lightseagreen" );
+
+        audio.css("border-left", "none");
+        current.css("border-left", "10px solid lightseagreen" );
     });
     $(window).keydown(function(e) {
+
         switch(e.which) {
-            case 32:
+            case SPACEBAR:
                 if (current.playing == true) {
                     current.playing = false;
                     current.trigger('pause');
@@ -26,11 +36,11 @@ $(function() {
                 }
                 event.preventDefault();
                 break;
-            case 37:
+            case LEFT_ARROW:
                 current.prop("currentTime",current.prop("currentTime")-5);
                 event.preventDefault();
                 break;
-            case 39:
+            case RIGHTARROW:
                 current.prop("currentTime",current.prop("currentTime")+5);
                 event.preventDefault();
                 break;
@@ -54,6 +64,7 @@ pre {
 audio {
     vertical-align: middle;
 }
+.float-right {float: right}
 </style>
 <link href="http://bartekbrak.github.io/images/favicon.ico" rel="icon">
 </head>
