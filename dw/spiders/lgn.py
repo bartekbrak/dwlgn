@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 import os
 from urllib.parse import urljoin
@@ -15,7 +14,7 @@ logger = logging.getLogger(__name__)
 class LgnSpider(XMLFeedSpider):
     name = "lgn"
     allowed_domains = ['dw.com']
-    start_urls = ['http://rss.dw.com/xml/DKpodcast_lgn_de']
+    start_urls = ['https://rss.dw.com/xml/DKpodcast_lgn_de']
 
     def parse_node(self, response, node):
         item = DwItem()
@@ -28,20 +27,22 @@ class LgnSpider(XMLFeedSpider):
         item['url'] = node.xpath('//item/link/text()').extract_first()
         item['langsam_url'] = node.xpath('//enclosure/@url').extract_first()
         item['file_urls'] = [item['langsam_url']]
-        return Request(item['url'], callback=self.add_html, meta={'item': item})
+        return Request(item['url'], callback=self.through, meta={'item': item})
+
+    def through(self, response):
+        item = response.meta['item']
+        where = response.xpath('//div[@class="linkList intern"]/a/@href').extract_first()
+        if where is None:
+            # small amount pf pages don't have the text, let's skip them entirely, compare:
+            # https://www.dw.com/de/02032022-langsam-gesprochene-nachrichten/av-60982268
+            # https://www.dw.com/de/02032022-langsam-gesprochene-nachrichten/av-60984826
+            return None
+        return Request(where, callback=self.add_html, meta={'item': item})
 
     def add_html(self, response):
         item = response.meta['item']
-        item['html'] = response.xpath('//div[@class="longText"]').extract_first()
-        originaltempo_page_url = urljoin(
-            response.url,
-            response.xpath('//h2[contains(text(),"Originaltempo")]/../@href').extract_first()
-        )
-        return Request(originaltempo_page_url, callback=self.add_originaltempo, meta={'item': item})
-
-    def add_originaltempo(self, response):
-        item = response.meta['item']
-        item['originaltempo_url'] = response.xpath('//a[contains(@href, ".mp3")]/@href').extract_first()
+        item['html'] = response.xpath('//div[@class="content-area"]//span').extract_first()
+        item['originaltempo_url'] = response.xpath('//a[contains(text(),"Originaltempo")]/@href').extract_first()
         item['file_urls'].append(item['originaltempo_url'])
         return item
 

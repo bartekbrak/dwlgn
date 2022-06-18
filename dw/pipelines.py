@@ -18,12 +18,12 @@ class DwMP3Pipeline(FilesPipeline):
     items: Dict[Url, Item] = {}
 
     def get_media_requests(self, item, info):
-        """ Store item objects so that item.date can accessed from self.file_path """
+        """ Store item objects so that item.date can be accessed from self.file_path """
         for url in item.get(self.files_urls_field, []):
             self.items[url] = item
         return super().get_media_requests(item, info)
 
-    def file_path(self, request, response=None, info=None):
+    def file_path(self, request, response=None, info=None, *, item=None):
         """ Name the file after the date """
         url = request.url
         item = self.items[url]
@@ -35,7 +35,7 @@ class DwMP3Pipeline(FilesPipeline):
         else:
             raise Exception(
                 "Couldn't match %r to either %r or %r" % (
-                    url,item['langsam_url'], item['originaltempo_url']
+                    url, item['langsam_url'], item['originaltempo_url']
                 )
             )
         logger.debug('url %r to %r', url, file_name)

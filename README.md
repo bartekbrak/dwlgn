@@ -31,3 +31,8 @@ xdg-open lgn.html
 # To do
 I'd like to be able to control last touched audio player with keyboard, pause, rewind few seconds 
 with keyboard.
+
+# Changelog
+
+2022.06.18: updated to run with 3.10 and newest scrapy
+            the website also changed a bit

@@ -4,7 +4,7 @@ default:
 	$(MAKE) html
 
 install:
-	pip install scrapy==1.3.2 python-dateutil==2.6.0
+	pip install scrapy==2.6.1 python-dateutil==2.8.2
 
 scrape:
 	scrapy crawl lgn -o lgn.jsonlines
